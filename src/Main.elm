@@ -172,7 +172,7 @@ tableConfig =
 
 screencastUrl : String
 screencastUrl =
-    "DARK_STATIC_ASSETS_BASE_URL/ellies.mp4"
+    "https://janiczek.github.io/ellies/screencast.mp4"
 
 
 bookmarkletUrl : String
