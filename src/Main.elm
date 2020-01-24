@@ -157,6 +157,7 @@ tableConfig =
                         , children =
                             [ Html.a
                                 [ Events.onClick (Click url)
+                                , Events.on "auxclick" (middleButtonDecoder (Click url))
                                 , Attrs.href ("https://ellie-app.com/" ++ url)
                                 , Attrs.target "_blank"
                                 ]
@@ -168,6 +169,19 @@ tableConfig =
             , Table.intColumn "Clicks" .clicks
             ]
         }
+
+
+middleButtonDecoder : msg -> Decoder msg
+middleButtonDecoder msg =
+    Decode.field "which" Decode.int
+        |> Decode.andThen
+            (\which ->
+                if which == 2 then
+                    Decode.succeed msg
+
+                else
+                    Decode.fail "not the middle mouse button"
+            )
 
 
 screencastUrl : String
