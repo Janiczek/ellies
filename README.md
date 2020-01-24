@@ -4,7 +4,7 @@ A nice bookmarklet way to save interesting Ellies.
 
 Built with Dark (backend) and Elm (this repo).
 
-[Screencast](https://github.com/Janiczek/ellies/blob/master/screencast.mp4?raw=true)
+[Screencast](https://janiczek.github.io/ellies/screencast.mp4)
 
 ## Backend
 
