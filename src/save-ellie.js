@@ -4,6 +4,10 @@ javascript:(function() {
     return;
   }
   var id = document.location.pathname.slice(1);
+  if (id === 'new') {
+    alert("Didn't save to the catalog yet - you'll have to save your Ellie first!");
+    return;
+  }
   var name = prompt('Name the Ellie');
   var xhr = new XMLHttpRequest();
   xhr.onload = function() {
