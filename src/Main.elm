@@ -170,6 +170,11 @@ tableConfig =
         }
 
 
+screencastUrl : String
+screencastUrl =
+    "DARK_STATIC_ASSETS_BASE_URL/ellies.mp4"
+
+
 bookmarkletUrl : String
 bookmarkletUrl =
     "https://raw.githubusercontent.com/Janiczek/ellies/master/src/save-ellie.min.js"
@@ -180,24 +185,30 @@ view model =
     { title = "Ellies catalog"
     , body =
         [ Html.h1 [] [ Html.text "Ellies catalog" ]
-        , Html.h2 []
-            [ Html.text "Use "
-            , Html.a
-                [ Attrs.href bookmarkletUrl
-                , Attrs.target "_blank"
+        , Html.ul []
+            [ Html.li []
+                [ Html.text "Use "
+                , Html.a
+                    [ Attrs.href bookmarkletUrl
+                    , Attrs.target "_blank"
+                    ]
+                    [ Html.text "this bookmarklet" ]
+                , Html.text " on an Ellie to save it here!"
                 ]
-                [ Html.text "this bookmarklet" ]
-            , Html.text " on an Ellie to save it here!"
-            ]
-        , Html.small
-            [ Attrs.style "padding-bottom" "8px"
-            , Attrs.style "display" "block"
-            ]
-            [ Html.a
-                [ Attrs.href "https://github.com/Janiczek/ellies"
-                , Attrs.target "_blank"
+            , Html.li []
+                [ Html.a
+                    [ Attrs.href screencastUrl
+                    , Attrs.target "_blank"
+                    ]
+                    [ Html.text "Screencast (655K, .mp4)" ]
                 ]
-                [ Html.text "GitHub" ]
+            , Html.li []
+                [ Html.a
+                    [ Attrs.href "https://github.com/Janiczek/ellies"
+                    , Attrs.target "_blank"
+                    ]
+                    [ Html.text "Source on GitHub" ]
+                ]
             ]
         , case model.ellies of
             NotAsked ->
@@ -236,7 +247,8 @@ view model =
                                     )
                 in
                 Html.div []
-                    [ Html.input
+                    [ refreshElliesBtn
+                    , Html.input
                         [ Attrs.placeholder "Filter the name..."
                         , Events.onInput SetNameFilter
                         , Attrs.value model.nameFilter
