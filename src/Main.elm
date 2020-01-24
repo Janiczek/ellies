@@ -131,11 +131,6 @@ update msg model =
             )
 
 
-bookmarklet : String
-bookmarklet =
-    "javascript:(function(){if(document.location.origin!=='https://ellie-app.com'){alert('Try this bookmarklet on an Ellie page!');return}var id=document.location.pathname.slice(1);var name=prompt('Name the Ellie');var xhr=new XMLHttpRequest();xhr.onload=function(){if(xhr.status>=200&&xhr.status<300){alert(xhr.response)}else{alert('Something went wrong :( Ping @janiczek on Twitter or Elm Slack!')}};xhr.open('GET','https://janiczek-ellies.builtwithdark.com/save?id='+encodeURIComponent(id)+'&name='+encodeURIComponent(name));xhr.send()}());"
-
-
 refreshElliesBtn : Html Msg
 refreshElliesBtn =
     Html.button
@@ -163,6 +158,7 @@ tableConfig =
                             [ Html.a
                                 [ Events.onClick (Click url)
                                 , Attrs.href ("https://ellie-app.com/" ++ url)
+                                , Attrs.target "_blank"
                                 ]
                                 [ Html.text name ]
                             ]
@@ -174,6 +170,11 @@ tableConfig =
         }
 
 
+bookmarkletUrl : String
+bookmarkletUrl =
+    "https://raw.githubusercontent.com/Janiczek/ellies/master/src/save-ellie.min.js"
+
+
 view : Model -> Browser.Document Msg
 view model =
     { title = "Ellies catalog"
@@ -181,7 +182,11 @@ view model =
         [ Html.h1 [] [ Html.text "Ellies catalog" ]
         , Html.h2 []
             [ Html.text "Use "
-            , Html.a [ Attrs.href bookmarklet ] [ Html.text "this bookmarklet" ]
+            , Html.a
+                [ Attrs.href bookmarkletUrl
+                , Attrs.target "_blank"
+                ]
+                [ Html.text "this bookmarklet" ]
             , Html.text " on an Ellie to save it here!"
             ]
         , case model.ellies of
