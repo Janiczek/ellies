@@ -9,6 +9,9 @@ javascript:(function() {
     return;
   }
   var name = prompt('Name the Ellie');
+  if (name == null) {
+    return;
+  }
   var xhr = new XMLHttpRequest();
   xhr.onload = function() {
     if (xhr.status >= 200 && xhr.status < 300) {
