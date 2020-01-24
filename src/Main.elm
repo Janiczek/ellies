@@ -47,7 +47,7 @@ type Msg
 init : () -> ( Model, Cmd Msg )
 init flags =
     ( { nameFilter = ""
-      , tableState = Table.initialSort "Name"
+      , tableState = Table.initialSort "Clicks"
       , ellies = Loading
       }
     , refreshEllies
@@ -133,9 +133,11 @@ update msg model =
 
 refreshElliesBtn : Html Msg
 refreshElliesBtn =
-    Html.button
-        [ Events.onClick RefreshEllies ]
-        [ Html.text "Refresh Ellies" ]
+    Html.div []
+        [ Html.button
+            [ Events.onClick RefreshEllies ]
+            [ Html.text "Refresh Ellies" ]
+        ]
 
 
 tableConfig : Table.Config Ellie Msg
@@ -166,7 +168,11 @@ tableConfig =
                         }
                 , sorter = Table.increasingOrDecreasingBy .name
                 }
-            , Table.intColumn "Clicks" .clicks
+            , Table.customColumn
+                { name = "Clicks"
+                , viewData = String.fromInt << .clicks
+                , sorter = Table.decreasingOrIncreasingBy .clicks
+                }
             ]
         }
 
@@ -199,17 +205,34 @@ view model =
     { title = "Ellies catalog"
     , body =
         [ Html.h1 [] [ Html.text "Ellies catalog" ]
-        , Html.ul []
-            [ Html.li []
-                [ Html.text "Use "
-                , Html.a
-                    [ Attrs.href bookmarkletUrl
+        , Html.p []
+            [ Html.strong []
+                [ Html.a
+                    [ Attrs.href "https://ellie-app.com/new"
                     , Attrs.target "_blank"
                     ]
-                    [ Html.text "this bookmarklet" ]
-                , Html.text " on an Ellie to save it here!"
+                    [ Html.text "Ellie" ]
+                , Html.text " is an "
+                , Html.a
+                    [ Attrs.href "https://elm-lang.org/"
+                    , Attrs.target "_blank"
+                    ]
+                    [ Html.text "Elm" ]
+                , Html.text " snippet sharing service."
                 ]
-            , Html.li []
+            , Html.text " It doesn't have any saved Ellies listing or search functionality though, so many cool and interesting Ellies get lost."
+            ]
+        , Html.p []
+            [ Html.text "This app aims to change that. When you find an interesting Ellie, click "
+            , Html.a
+                [ Attrs.href bookmarkletUrl
+                , Attrs.target "_blank"
+                ]
+                [ Html.text "this bookmarklet" ]
+            , Html.text " to save it here!"
+            ]
+        , Html.ul []
+            [ Html.li []
                 [ Html.a
                     [ Attrs.href screencastUrl
                     , Attrs.target "_blank"
