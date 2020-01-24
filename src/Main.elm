@@ -189,6 +189,16 @@ view model =
                 [ Html.text "this bookmarklet" ]
             , Html.text " on an Ellie to save it here!"
             ]
+        , Html.small
+            [ Attrs.style "padding-bottom" "8px"
+            , Attrs.style "display" "block"
+            ]
+            [ Html.a
+                [ Attrs.href "https://github.com/Janiczek/ellies"
+                , Attrs.target "_blank"
+                ]
+                [ Html.text "GitHub" ]
+            ]
         , case model.ellies of
             NotAsked ->
                 -- ???
