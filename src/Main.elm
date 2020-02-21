@@ -37,6 +37,7 @@ type alias Ellie =
 
 type Msg
     = RefreshEllies
+    | NoOp
     | GotEllies (Result Http.Error (List Ellie))
     | NewTableState Table.State
     | SetNameFilter String
@@ -85,6 +86,9 @@ update msg model =
             ( { model | ellies = Loading }
             , refreshEllies
             )
+
+        NoOp ->
+            ( model, Cmd.none )
 
         GotEllies result ->
             ( { model | ellies = RemoteData.fromResult result }
@@ -195,9 +199,9 @@ screencastUrl =
     "https://janiczek.github.io/ellies/screencast.mp4"
 
 
-bookmarkletUrl : String
-bookmarkletUrl =
-    "https://raw.githubusercontent.com/Janiczek/ellies/master/src/save-ellie.min.js"
+bookmarkletSource : String
+bookmarkletSource =
+    """javascript:(function(){if(document.location.origin!=='https://ellie-app.com'){alert('Try this bookmarklet on an Ellie page!');return}var id=document.location.pathname.slice(1);if(id==='new'){alert("Didn't save to the catalog yet - you'll have to save your Ellie first!");return}var name=prompt('Name the Ellie');if(name==null){return}var xhr=new XMLHttpRequest();xhr.onload=function(){if(xhr.status>=200&&xhr.status<300){alert(xhr.response)}else{alert('Something went wrong :( Ping @janiczek on Twitter or Elm Slack!')}};xhr.open('GET','https://janiczek-ellies.builtwithdark.com/save?id='+encodeURIComponent(id)+'&name='+encodeURIComponent(name));xhr.send()}());"""
 
 
 view : Model -> Browser.Document Msg
@@ -225,9 +229,7 @@ view model =
         , Html.p []
             [ Html.text "This app aims to change that. When you find an interesting Ellie, click "
             , Html.a
-                [ Attrs.href bookmarkletUrl
-                , Attrs.target "_blank"
-                ]
+                [ Attrs.property "href" (Encode.string bookmarkletSource) ]
                 [ Html.text "this bookmarklet" ]
             , Html.text " to save it here!"
             ]
