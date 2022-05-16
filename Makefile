@@ -1,7 +1,7 @@
 .PHONY: dev
 dev:
 	elm make --optimize src/Main.elm
-	firefox index.html
+	open index.html
 
 .PHONY: build
 build:
