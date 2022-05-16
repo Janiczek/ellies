@@ -223,13 +223,13 @@ view model =
             , Html.text " It doesn't have any saved Ellies listing or search functionality though, so many cool and interesting Ellies get lost."
             ]
         , Html.p []
-            [ Html.text "This app aims to change that. When you find an interesting Ellie, click "
+            [ Html.text "This app aims to change that. Drag this link to your bookmark bar: "
             , Html.node "bookmarklet-link"
                 [ Attrs.attribute "src" bookmarkletSource
-                , Attrs.attribute "title" "this bookmarklet"
+                , Attrs.attribute "title" "Add To Ellie Catalog"
                 ]
                 []
-            , Html.text " to save it here!"
+            , Html.text ". Then when you find an interesting Ellie, click it!"
             ]
         , Html.ul []
             [ Html.li []
